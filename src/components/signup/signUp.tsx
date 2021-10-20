@@ -8,23 +8,31 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import { FormControl, InputLabel, OutlinedInput } from "@material-ui/core";
 import { useState } from "react";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 function CopyRight() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        sample.com
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
   );
 }
+
 export const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -40,6 +48,9 @@ export const useStyles = makeStyles((theme) => ({
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
+  inputField: {
+    width: "100%",
+  },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
@@ -53,6 +64,7 @@ export default function SignUp() {
     lastName: "",
     email: "",
     password: "",
+    showPassword: false,
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +73,13 @@ export default function SignUp() {
     setValue({
       ...values,
       [name]: value,
+    });
+  };
+
+  const handleClickShowPassword = () => {
+    setValue({
+      ...values,
+      showPassword: !values.showPassword,
     });
   };
 
@@ -117,16 +136,34 @@ export default function SignUp() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
+              <FormControl className={classes.inputField} variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password">
+                  password
+                </InputLabel>
+                <OutlinedInput
+                  id="password"
+                  name="password"
+                  type={values.showPassword ? "text" : "password"} //フォームのタイプを三項演算子でテキストかパスワードか使い分ける。
+                  onChange={handleInputChange}
+                  value={values.password}
+                  labelWidth={80}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
+                        {values.showPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
             </Grid>
           </Grid>
           <Button
