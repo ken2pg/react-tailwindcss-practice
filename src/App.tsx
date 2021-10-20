@@ -5,7 +5,7 @@ import SignUp from "./components/signup/signUp";
 
 function App() {
   return (
-    <div className="App">
+    <div className="mt-52 w-full flex justify-center">
       <SignUp />
     </div>
   );
