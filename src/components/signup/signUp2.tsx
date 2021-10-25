@@ -1,10 +1,33 @@
 import React, { useState } from "react";
 
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().min(8).max(32).required(),
+});
+
 const SignUp2: () => JSX.Element = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("");
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmitHandler = (data: string[]) => {
+    console.log({ data });
+    reset();
+  };
   const handleClickShowPassword = () => {
     if (isShowPassword) {
       setIsShowPassword(false);
@@ -12,15 +35,49 @@ const SignUp2: () => JSX.Element = () => {
       setIsShowPassword(true);
     }
   };
+
   return (
     <>
       <div className="w-full max-w-xs">
         <div className="flex flex-col w-full max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
           <div className="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white font-bold">
-            Login
+            SignUp
           </div>
           <div className="mt-8">
-            <form action="#" autoComplete="off">
+            <form
+              action="#"
+              autoComplete="off"
+              onSubmit={handleSubmit(onSubmitHandler)}
+            >
+              <div className="flex flex-col mb-2">
+                <div className="flex relative ">
+                  <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="15"
+                      height="15"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                  </span>
+                  <input
+                    type="text"
+                    id="sign-in-username"
+                    className=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    placeholder="Your name"
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
+                  />
+                </div>
+              </div>
               <div className="flex flex-col mb-2">
                 <div className="flex relative ">
                   <span className="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
@@ -58,6 +115,7 @@ const SignUp2: () => JSX.Element = () => {
                     </svg>
                   </span>
                   <input
+                    {...register("password")}
                     type={isShowPassword ? "password" : "text"}
                     id="sign-in-email"
                     className="rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
@@ -68,7 +126,7 @@ const SignUp2: () => JSX.Element = () => {
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
                     {isShowPassword ? (
                       <svg
-                        className={"h-6 text-gray-700"}
+                        className={"h-6 text-gray-500"}
                         fill="none"
                         onClick={handleClickShowPassword}
                         xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +139,7 @@ const SignUp2: () => JSX.Element = () => {
                       </svg>
                     ) : (
                       <svg
-                        className={"h-6 text-gray-700"}
+                        className={"h-6 text-gray-500"}
                         fill="none"
                         onClick={handleClickShowPassword}
                         xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +154,10 @@ const SignUp2: () => JSX.Element = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center mb-6 -mt-4">
+              <p className="text-center mb-5 text-red-500 font-bold">
+                {errors.password?.message}
+              </p>
+              {/* <div className="flex items-center mb-6 -mt-4">
                 <div className="flex ml-auto">
                   <a
                     href="#"
@@ -105,7 +166,7 @@ const SignUp2: () => JSX.Element = () => {
                     Forgot Your Password?
                   </a>
                 </div>
-              </div>
+              </div> */}
               <div className="flex w-full">
                 <button
                   type="submit"
@@ -116,7 +177,7 @@ const SignUp2: () => JSX.Element = () => {
               </div>
             </form>
           </div>
-          <div className="flex items-center justify-center mt-6">
+          {/* <div className="flex items-center justify-center mt-6">
             <a
               href="#"
               target="_blank"
@@ -124,7 +185,7 @@ const SignUp2: () => JSX.Element = () => {
             >
               <span className="ml-2">You don&#x27;t have an account?</span>
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
