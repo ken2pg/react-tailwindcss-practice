@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import PasswordMeter from "./passwordMeter";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -154,6 +155,7 @@ const SignUp2: () => JSX.Element = () => {
                   </div>
                 </div>
               </div>
+              {password ? <PasswordMeter password={password} /> : null}
               <p className="text-center mb-5 text-red-500 font-bold">
                 {errors.password?.message}
               </p>
@@ -172,7 +174,7 @@ const SignUp2: () => JSX.Element = () => {
                   type="submit"
                   className="py-2 px-4 bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
                 >
-                  Login
+                  Create Account
                 </button>
               </div>
             </form>
