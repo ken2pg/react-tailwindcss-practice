@@ -5,7 +5,7 @@ export default function SignUp() {
     <>
       <div className="w-full max-w-xs">
         <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          {/* <svg
+          <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
             fill="none"
@@ -18,7 +18,7 @@ export default function SignUp() {
               strokeWidth={2}
               d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
             />
-          </svg> */}
+          </svg>
           <div className="text-gray-700 text-3xl text-center font-bold mb-6">
             Sign In
           </div>
