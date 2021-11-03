@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import PasswordMeter from "./passwordMeter";
+import { AppContext } from "../../App";
+import { history } from "../../App";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -16,6 +18,7 @@ const SignUp2: () => JSX.Element = () => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
 
+  const { state, dispatch } = useContext(AppContext);
   const {
     register,
     handleSubmit,
@@ -35,6 +38,18 @@ const SignUp2: () => JSX.Element = () => {
     } else {
       setIsShowPassword(true);
     }
+  };
+
+  const signUp = () => {
+    dispatch({
+      type: "signup",
+      payload: {
+        Email: state.Email,
+        password: state.Email,
+        userName: state.userName,
+      },
+    });
+    history.push("./");
   };
 
   return (
@@ -171,6 +186,7 @@ const SignUp2: () => JSX.Element = () => {
               </div> */}
               <div className="flex w-full">
                 <button
+                  onClick={signUp}
                   type="submit"
                   className="py-2 px-4 bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
                 >
